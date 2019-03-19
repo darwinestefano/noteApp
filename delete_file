@@ -13,20 +13,20 @@
 		<a href="index.php"><img  src="images/notes.png" alt="Avatar"> </a>
 	</div>
 <div class= "section">
-
+    <div class="page-add">
   <?php
 
   //Open directory
-  $myDirectory = opendir(".");
+  $myDirectory = opendir("./");
 
   //Get directory and delete it 
   if(isset($_GET['file'])) 
   { 
      $delete_file = $_GET['file']; 
     if (!unlink($delete_file)){
-      echo "<h1>File cannot be deleted!</h1>";
+      echo "<h2>File cannot be deleted!</h2>";
     } else {
-      echo "<h1>File deleted successfully! </h1>";
+      echo "<h2>File deleted successfully! </h2>";
     }
 
   //Closes Directory
@@ -34,7 +34,11 @@
   }  
 
   ?>
- </div>
-</div>
- </body>
- </html> 
+		  </div>
+	   </div>
+	</div>
+  </body>
+</html> 
+
+
+
