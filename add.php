@@ -14,69 +14,81 @@
 	</div>
 <div class= "section">
 	<h1> Add new note </h1>
-	<button class="btn-add"> <a href ="add.php"> <i class='material-icons'>add</i></a></button>
-	
-	<?php
- //Variables
- 	$fTitle =" "; $fTitleError=" "; $fbTitle =" ";
- 	$subject =" "; $subjectError =" "; $fbSubject=" ";
+			<?php
+		//Variables
+			$fTitle =" "; 
+			$errors = array ();
+			$subject =" ";
 
-//validate data 
-function validate_input($data){
-	$data = trim($data);
-	$data = htmlspecialchars($data);
-	return $data;
-}
-	//Get inputs and validate
-	if($_SERVER["REQUEST_METHOD"] == "GET"){
-		
-		if(empty($_GET["fTitle"])){
-			$fTitleError = "Please enter a file title";
-		}else{
-			$fTitle = validate_input($_GET["fTitle"]);
-			$fbTitle = "<br/> File Title:  $fTitle";
+		//validate data 
+		function validate_input($data){
+			$data = trim($data);
+			$data = htmlspecialchars($data);
+			return $data;
 		}
 
-		if(empty($_GET["subject"])){
-			$subjectError = "Please enter a file title";
-		}else{
-			$subject= validate_input($_GET["subject"]);
-			$fbSubject = "<br/> File Title:  $subject";
-		}
-	}
+			//Get inputs and validate
+		if (($_SERVER["REQUEST_METHOD"] == "POST")){
+				
+				//Openup Directory
+				$myDirectory = opendir(".");
+				
+				if (empty($_POST["fTitle"])) {
+					array_push($errors, "File cannot be created - File name is required");
+				} 	
+				else {
+					$fTitle = validate_input($_POST["fTitle"]);
+				}
+				
+				if (empty($_POST["subject"])) {
+					array_push($errors, "Subject is required");
+				} 	
+				else {
+					$subject = validate_input($_POST["subject"]);
+				}
+						
+					if (count($errors) == 0)
+					{
+						//Get path
+						$path = getcwd();
 
-	//Openup Directory
-	$myDirectory = opendir(".");
-	
-	//Get path
-	$path = getcwd();
+						//File name 
+						$fName = $fTitle.'.txt';
 
-	//File name 
-	$fName = $fTitle.'.txt';
-
-	//Checking file existence 
-	if(file_exists($path)){
-		$file = fopen( $fName, "w");
-		if($file){
-			fwrite ($file, $subject);
-			fclose($file);
-		}
-	}
-
-	//Closes directory
-	closedir($myDirectory);
-?>
+						//Checking file existence 
+						if(!file_exists($fName)){	
+							$file = fopen( $fName, "w") or die("Unable to open file!");
+							if($file){
+								fwrite ($file, $subject);
+								array_push($errors, "File created successfully!");
+								fclose($file);
+							}
+						}else {
+							array_push($errors, "File be cannot created  - File already exists!");
+						}
+					}
+					//Closes directory
+						closedir($myDirectory);
+			}
+			
+		?>
 	<div class="page-add">
-	<form action ="add.php" method ="get">
+	<form action ="add_file.php" method ="POST">
 	<!-- Form add new File-->
 	<label for = "fTitle"> File title: </label> <br/>
-	<input type = "text" name= "fTitle" id = "fTitle" placeholder="Enter a file name..." value="<?php echo $fTitle;?>" /> <br/>
+	<input type = "text" name= "fTitle" id = "fTitle" placeholder="Enter a file name..."S />  <br/>
 
 	<label for="subject" > Subject: </label> <br/> 
-	<textarea id ="subject" name="subject" placeholder="Write into file...." style= "height: 200px" value="<?php echo $text;?>"></textarea><br/>
+	<textarea id ="subject" name="subject" placeholder="Write into file...." rows="20"> </textarea><br/>
 	
-	<input type="submit" value ="ADD">
+	<input type="submit" value ="SAVE">
 	</form>
+		<?php 
+				foreach($errors as $error){
+				echo "<h5>Status:   ".$error . " </h5><br />";
+				}				
+			
+		?>
 		</div>
 	</div>
 </div>
