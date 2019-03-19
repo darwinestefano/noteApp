@@ -11,85 +11,57 @@
 <div id= "page">
 	<div class="image-logo"> 
 		<img  src="images/notes.png" alt="Avatar">	
-	</div>
+	</div>	
 <div class= "section">
-	<h1> My Notes </h1>
-	<button class="btn-add"> <a href ="add.php"> <i class='material-icons'>add</i></a></button>  
+	<h1> myNotes </h1>
+	<a href ="add_file.php" class ="btn" > <i class='material-icons'>add</i></a>  
 	<table class= "myTable">
 	 <thead>
 			<tr>
-				<th>Filename </th>
-				<th>Size <small>(bytes) </small></th>
-				<th>Date Modified</th>
-		
+				<th>Student Id</th>
+				<th>Firstname</th>
+				<th>Surname</th>
+				<th>Surname</th>
+				<th>Surname</th>
+				<th>Surname</th>
+				<th>Surname</th>
+				<th>Surname</th>
 			</tr>
 	</thead>
 	
 	<tbody>
 			<?php 
-				//Openup Directory
-				$myDirectory = opendir(".");
 
-				//Get entries into an array 
-				while($entryName = readdir($myDirectory)){
-					$dirArray[] = $entryName;
-				}
+				foreach (glob("*.txt")as $filename){
 
-				//Closes directory
-				closedir($myDirectory);
-
-				//Counts elements in the array
-				$indexCount = count($dirArray);
-
-				//Sort files
-				sort($dirArray);
-				//Delete file
-				function deletefile($path){
-					$path = $path.'.txt';
-				if(!unlink($path)){
-					echo "You have an error, file not deleted!";
-				  } else{
-				  header ("Location: index.php");
-				  }
-				} 
-				//Loops through the array of files
-				for($index =0; $index<$indexCount; $index++){
+					$namehref = $filename;
 					
-					//Get File names
-					$name = $dirArray[$index];
-					$namehref = $dirArray[$index];
-				
 					//Get files size
-					$size = number_format(filesize($dirArray[$index]));
+					$size = number_format(filesize($filename));
 
 					//Get Date modified
-					$modtime=date("M j Y g:i A", filemtime($dirArray[$index]));
-					$timekey=date("YmdHis", filemtime($dirArray[$index]));
-
-					//Separate directories 
-					if (is_dir($dirArray[$index])){
-						$size="&lt;Directory&gt;"; 
-						$class="dir";
-					  } else {
-						$class="file";
-					}
+					$modtime=date("M j Y g:i A", filemtime($filename));
+					$timekey=date("YmdHis", filemtime($filename));
 
 					//Clean up and directories 
-					if($name=="."){$name=". (Current Directory)"; $extn="&lt;System Dir&gt;";}
-					if($name==".."){$name=".. (Parent Directory)"; $extn="&lt;System Dir&gt;";}
+					if($filename=="."){$filename=". (Current Directory)"; $extn="&lt;System Dir&gt;";}
+					if($filename==".."){$filename=".. (Parent Directory)"; $extn="&lt;System Dir&gt;";}
 					
-					//Print out all elements 
+					//Print out name well presented
+					$file_name = substr($filename, 0, -4);
+					
+					 //Print out all elements 
 					print("
-					<tr class='$class'>
-					  <td><a href='./$namehref'>$name</a></td>
-					  <td><a href='./$namehref'>$size</a></td>
-					  <td sorttable_customkey='$timekey'><a href='./$namehref'>$modtime</a></td>
-					  <td><a href='edit_file.php?file=$name' class='btn'><i class='material-icons'>description</i></a></td>
-					  <td><a href='read_file.php?file=$name' class='btn'><i class='material-icons'>edit</i></a> </td>
-					  <td><a href='delete_file.php?file=$name' class='btn'><i class='material-icons'>delete</i></a></td>
+					<tr>
+					  <td>$file_name</td>
+					  <td>$size</td>
+					  <td sorttable_customkey='$timekey'>$modtime</a></td>
+					  <td><a href='read_file.php?file=$filename' class='btn'><i class='material-icons'>description</i></a></td>
+					  <td><a href='edit_file.php?file=$filename' class='btn'><i class='material-icons'>edit</i></a> </td>
+					  <td><a href='delete_file.php?file=$filename' class='btn'><i class='material-icons'>delete</i></a></td>
 					  </td>
 					</tr>");
-				}
+				}	
 			?>	
 	</tbody>
 	</table>
