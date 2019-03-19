@@ -3,14 +3,14 @@ body{
 	padding-top: 2em;
 }
 img{
-	display: block;
+  display: block;
   margin-left: auto;
   margin-right: auto;
   width: 20%;
 }
 h1{
 	font-family:'Libre Franklin', sans-serif;
-	color: #737373;
+	color:  black/*#737373*/;
 	font-size: 2.4em;
 	padding: .15em 2%;
 	float: left;
@@ -23,7 +23,7 @@ h1{
 	padding: 0em 0% 0em 0%;
 	background-color: #f2f2f2;
 	border: 1px solid #e6e6e6;
-	border-radius: 10px;
+	border-radius: 2em;
 }
 .section{
 	padding: 0em 3%;
@@ -72,13 +72,13 @@ table{
 	width: 100%;
 }
 th{
-	background-color: #cccccc;
-	color: white;
+	color: black;
 	font-size: 1.25em;
-	border-radius: 1em;
 	cursor: pointer;
-	padding: .9em 2%;
-	margin: 3em 2%;
+	text-align: left;
+	padding: 1em 2%;
+	margin: 3em 1%;
+	border-bottom: 2px dotted #cccccc;
 }
 th small{
 	font-size: .5em;
@@ -86,22 +86,23 @@ th small{
 a{
 	text-decoration: none;
 }
+td {
+	padding: .2em .5%;
+	border-bottom: 1px dotted #cccccc;
+}
 td a{
 	color: #4d4d4d;
-	display: block;
-	padding: 1em 2%;
-}
-tr:hover td a{
-	color:black;
-}
-.btn-add{
-	float: right;
+	display: inline-block;
 }
 
-.btn, .btn-add {
+.btn-add a{
+	text-decoration:none;
+}
+.btn {
+ float: right;
   background-color: #cccccc; 
   border: none;
-  padding: 15px 25px;
+  padding: 1.3em 2em;
   color: white;
   text-align: center;
   text-decoration: none;
