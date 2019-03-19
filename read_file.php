@@ -12,28 +12,38 @@
 	<div class="image-logo">
 		<a href="index.php"><img  src="images/notes.png" alt="Avatar"> </a>
 	</div>
-<div class= "section">
-	<h1> Description </h1>
-	<div class ="page-add">
-    
-	<?php
-    //Opens directory 
-    $myDirectory = opendir(".");
+    <div class = "section">
+         <h1> Description </h1>
+	
+         <?php
+                    //Opens directory 
+                    $myDirectory = opendir("./");
+                    //Display directory
+		
+                    if(isset($_GET['file'])) 
+                    { 
+                         $filename = $_GET['file']; 
+						 $file_name = substr($filename, 0, -4);
+                         $fileReader = fopen($filename,'r') or die("Unable to open file!");
+                         $data = fread($fileReader,filesize($filename));
+                        fclose($fileReader);
+                    }
+                    //Closes directory
+                    closedir($myDirectory);
+            ?>
+      
+       
+	<div class="page-add">
+        
+         <form action="read_file.php" method="GET" >
+	    <label for = "fTitle"> File title: </label> <br/>
+	    <input type = "text" name= "fTitle" id = "fTitle" placeholder="Enter a file name..." value =" <?php  echo $file_name; ?>">  <br/> 
+	    <label for="subject" > Subject: </label> <br/> 
+         <textarea id ="subject" name="subject" placeholder="Write into file...." rows="20">  <?php echo $data; ?> </textarea> <br/>
+        
+	    </form>
 
-    //Display directory
-    if(isset($_GET['file'])) 
-    { 
-       $read_file = $_GET['file']; 
-       $fileReader = fopen($read_file,'r') or die("Unable to open file!");
-       $data = fread($fileReader,filesize($read_file));
-       fclose($fileReader);
-       echo  "<h2>File name: </h2>".$_GET['file']."<br/>";
-       echo "<h2> Content: </h2> ".$data;
-    }
-	//Closes directory
-	closedir($myDirectory);
-?>
-        </div>
+     </div>
 	</div>
 </div>
 
